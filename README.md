@@ -1,4 +1,4 @@
-#**Plastic Waste Around the World — Data Analysis & Visualization**
+**Plastic Waste Around the World — Data Analysis & Visualization**
 
 What happens to the plastic after you throw it away — and who really pays the price?
 
@@ -21,12 +21,12 @@ I set out to explore questions like:
 
 Built using **Power BI**, after preprocessing and analysis with **Python (Pandas, Seaborn, Matplotlib)**
 
-- 🟠 **Pie Chart** – Total Plastic Waste by Country
-- 🔵 **Bar Chart** – Per Capita Waste
-- 💰 **Stacked Chart** – GDP by Continent
-- 🌎 **Filled Map** – Continent-wise Waste vs Recycling
-- 🌊 **Line Graph** – Coastal Risk by Country
-- 🧩 **Donut Chart** – Share of Global Waste by Continent
+-  **Pie Chart** – Total Plastic Waste by Country
+-  **Bar Chart** – Per Capita Waste
+-  **Stacked Chart** – GDP by Continent
+-  **Filled Map** – Continent-wise Waste vs Recycling
+-  **Line Graph** – Coastal Risk by Country
+-  **Donut Chart** – Share of Global Waste by Continent
 
 ---
 
