@@ -1,0 +1,82 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Load and Clean Datasets
+
+plastic_df = pd.read_excel("plastic_waste.xlsx")
+continent_df = pd.read_csv("countries_continent.csv")
+gdp_df = pd.read_excel("gdp_country.xlsx")
+
+# Clean column names
+plastic_df.rename(columns={"Country": "country"}, inplace=True)
+continent_df.rename(columns={"Country": "country", "Continent": "continent"}, inplace=True)
+gdp_df.columns = gdp_df.columns.astype(str).str.strip()
+
+# Prepare GDP data
+gdp = gdp_df[['Country Name', '2024']].copy()
+gdp.rename(columns={'Country Name': 'country', '2024': 'gdp'}, inplace=True)
+gdp.dropna(subset=['gdp'], inplace=True)
+
+
+# 2. Merge Datasets
+
+
+plastic_gdp = pd.merge(plastic_df, gdp, on='country', how='left')
+final_df = pd.merge(plastic_gdp, continent_df, on='country', how='left')
+
+# Optional: filter for GDP-specific analysis
+cleaned_df = final_df.dropna(subset=['gdp'])
+
+# 3. Insights & Visuals
+
+# --- Insight 1: Top 10 plastic polluters ---
+top10 = plastic_df.sort_values(by='Total_Plastic_Waste_MT', ascending=False).head(10)
+
+# Optional Visualization
+plt.figure(figsize=(10, 6))
+sns.barplot(data=top10, x='Total_Plastic_Waste_MT', y='country', palette='Reds_r')
+plt.title("Top 10 Countries by Plastic Waste")
+plt.xlabel("Total Plastic Waste (Million Tonnes)")
+plt.ylabel("Country")
+plt.tight_layout()
+plt.show()
+
+
+# --- Insight 2: Recycling Reality ---
+final_df['Recycled_Amount_MT'] = (final_df['Recycling_Rate'] / 100) * final_df['Total_Plastic_Waste_MT']
+top_recyclers = final_df[['country', 'Total_Plastic_Waste_MT', 'Recycling_Rate', 'Recycled_Amount_MT']].sort_values(by='Recycled_Amount_MT', ascending=False).head(10)
+
+# Optional Visualization
+plt.figure(figsize=(12, 6))
+sns.barplot(data=top_recyclers, x='Recycled_Amount_MT', y='country', palette='Greens_r')
+plt.title("Top 10 Countries by Recycled Plastic (MT)")
+plt.xlabel("Recycled Plastic (Million Tonnes)")
+plt.ylabel("Country")
+plt.tight_layout()
+plt.show()
+
+
+# --- Insight 3: Projecting the Future ---
+top_countries = final_df.sort_values(by='Total_Plastic_Waste_MT', ascending=False).head(5)['country']
+years = list(range(2024, 2029))  # Next 5 years
+growth_rate = 0.03
+
+projection_data = []
+for country in top_countries:
+    base_waste = final_df.loc[final_df['country'] == country, 'Total_Plastic_Waste_MT'].values[0]
+    for i, year in enumerate(years):
+        projected_waste = base_waste * ((1 + growth_rate) ** i)
+        projection_data.append({'Country': country, 'Year': year, 'Projected_Waste_MT': projected_waste})
+
+proj_df = pd.DataFrame(projection_data)
+
+# Visualization: Future Projection
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=proj_df, x='Year', y='Projected_Waste_MT', hue='Country', marker='o')
+plt.title("Projected Plastic Waste Over Next 5 Years (Top 5 Countries)")
+plt.xlabel("Year")
+plt.ylabel("Projected Waste (Million Tonnes)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
