@@ -1,4 +1,4 @@
-**Plastic Waste Around the World — Data Analysis & Visualization**
+# **Plastic Waste Around the World — Data Analysis & Visualization**
 
 What happens to the plastic after you throw it away — and who really pays the price?
 
@@ -30,7 +30,7 @@ Built using **Power BI**, after preprocessing and analysis with **Python (Pandas
 
 ---
 
-## 🛠️ Tools Used
+## Tools Used
 
 - Python (Pandas, NumPy, Matplotlib, Seaborn)
 - Jupyter Notebook
@@ -39,7 +39,7 @@ Built using **Power BI**, after preprocessing and analysis with **Python (Pandas
 
 
 ---
-Key Insights
+# Key Insights
 
 Plastic Waste is Unequally DistributedCountries like China and the US dominate total waste, but smaller countries are just as alarming per capita.
 
